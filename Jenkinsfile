@@ -3,17 +3,17 @@ pipeline {
 
      environment {
 
-        AWS_ACCESS_KEY_ID     = credentials('jenkins-aws-secret-key-id')
-        AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws-secret-access-key')
+        AWS_ACCESS_KEY_ID     = credentials('Saeed-AccessKey')
+        AWS_SECRET_ACCESS_KEY = credentials('Saeed-SecretKey')
 
-        AWS_S3_BUCKET = "artifact-dotnet-dll-files"
-        ARTIFACT_NAME = "pipelines-dotnet-core.dll"
-        AWS_EB_APP_NAME = "sample-dotnet-app"
+        AWS_S3_BUCKET = "sda-learning-jenkins"
+        ARTIFACT_NAME = "pipelines-dotnet-core-day3-A2.dll"
+        AWS_EB_APP_NAME = "Saeed-Jenkins-assignment"
         AWS_EB_APP_VERSION = "${BUILD_ID}"
-        AWS_EB_ENVIRONMENT = "Sampledotnetapp-env"
+        AWS_EB_ENVIRONMENT = "Saeedjenkinsassignment-env"
 
         SONAR_IP = "54.226.50.200"
-        SONAR_TOKEN = "sqp_4f4904db430aba9948fce759bbf9777998547c44"
+        SONAR_TOKEN = "sqp_812ac7f458a01e0e751d4ab646a47cbfb23d21c4"
 
     }
 
@@ -54,7 +54,7 @@ pipeline {
 
             post {
                 success {
-                    archiveArtifacts artifacts: 'bin/Debug/net6.0/pipelines-dotnet-core.dll', followSymlinks: false
+                    archiveArtifacts artifacts: 'bin/Debug/net6.0/pipelines-dotnet-core-day3-A2.dll', followSymlinks: false
        
                 }
             }
@@ -65,7 +65,7 @@ pipeline {
 
                 sh "aws configure set region us-east-1"
 
-                sh "aws s3 cp ./bin/Debug/net6.0/pipelines-dotnet-core.dll s3://$AWS_S3_BUCKET/$ARTIFACT_NAME"
+                sh "aws s3 cp ./bin/Debug/net6.0/pipelines-dotnet-core-day3-A2.dll s3://$AWS_S3_BUCKET/$ARTIFACT_NAME"
                 
             }
         }
