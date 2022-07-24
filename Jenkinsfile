@@ -7,7 +7,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('Saeed-SecretKey')
 
         AWS_S3_BUCKET = "sda-learning-jenkins"
-        ARTIFACT_NAME = "pipelines-dotnet-core-day3-A2.dll"
+        ARTIFACT_NAME = "pipelines-dotnet-core-day3-A2.jar"
         AWS_EB_APP_NAME = "Saeed-Jenkins-assignment"
         AWS_EB_APP_VERSION = "${BUILD_ID}"
         AWS_EB_ENVIRONMENT = "Saeedjenkinsassignment-env"
@@ -53,9 +53,12 @@ pipeline {
             }
 
             post {
+                always {
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                }
                 success {
-                    archiveArtifacts artifacts: 'bin/Debug/net6.0/pipelines-dotnet-core-day3-A2.dll', followSymlinks: false
-       
+                    
+                    archiveArtifacts 'target/*.jar'
                 }
             }
         }
@@ -65,7 +68,7 @@ pipeline {
 
                 sh "aws configure set region us-east-1"
 
-                sh "aws s3 cp ./bin/Debug/net6.0/pipelines-dotnet-core-day3-A2.dll s3://$AWS_S3_BUCKET/$ARTIFACT_NAME"
+                sh 'aws s3 cp ./target/spring-petclinic-2.3.1.BUILD-SNAPSHOT.jar s3://sda-learning-jenkins/pipelines-dotnet-core-day3-A2.jar'
                 
             }
         }
